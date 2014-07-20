@@ -1,3 +1,4 @@
+{ vars ? import ./vars.nix }:
 {
   network.description = "private cloud";
   network.enableRollback = true;
@@ -22,6 +23,39 @@
       environment.systemPackages = [
         pkgs.encfs
       ];
+
+      system.activationScripts.encfs =
+        ''
+          mkdir -p /encrypted
+          mkdir -m 0775 -p /decrypted
+          chown -R root:mail /decrypted
+          ENCFS=/run/current-system/sw/bin/encfs
+
+          if [ ls /encrypted/* >/dev/null 2>/dev/null ]; then
+            # mount encfs
+            if [ ! -f /decrypted/test ]; then
+              printf "${vars.encfs_password}" | $ENCFS /encrypted /decrypted \
+                --public --stdinpass
+              touch /decrypted/test
+            fi
+          else
+            # create encfs
+            printf "p\n${vars.encfs_password}" | $ENCFS /encrypted /decrypted \
+              --public --stdinpass
+            touch /decrypted/test
+          fi
+        '';
+
+      users.extraGroups = {
+        mail = {};
+        fuse = {};
+      };
+
+      users.extraUsers.mail = {
+        name = "mail";
+        group = "mail";
+        extraGroups = [ "fuse" ];
+      };
 
       users.extraUsers.harry = {
         name = "harry";
