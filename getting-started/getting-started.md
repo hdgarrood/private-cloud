@@ -40,3 +40,7 @@
   * But I do get the ability to deploy on virtualbox
 * It seems /etc/nixos/configuration.nix doesn't get updated. hmmm. Maybe I
   should contribute a linode backend to nixops.
+* Deleted (unused) deploy user; you have to do it manually after removing from
+  configuration.
+* Added EncFS startup script.
+
