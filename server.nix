@@ -11,6 +11,8 @@
         permitRootLogin = "yes";
       };
 
+      security.sudo.wheelNeedsPassword = false;
+
       networking.firewall = {
         enable = true;
         allowPing = true;
