@@ -19,6 +19,10 @@
         allowedTCPPorts = [ 80 443 ];
       };
 
+      environment.systemPackages = [
+        pkgs.encfs
+      ];
+
       users.extraUsers.harry = {
         name = "harry";
         group = "users";
