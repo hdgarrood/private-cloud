@@ -1,0 +1,6 @@
+* mail
+* monit web interface
+* ldap auth
+* monit should monitor everything
+* fail2ban should monitor everything
+* Shouldn't have encfs password in cleartext
