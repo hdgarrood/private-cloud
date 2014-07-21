@@ -43,4 +43,6 @@
 * Deleted (unused) deploy user; you have to do it manually after removing from
   configuration.
 * Added EncFS startup script.
-
+* Added monit.
+* Error from encfs: "Error decoding volume key, password incorrect" fixed
+  problem with encfs startup script.

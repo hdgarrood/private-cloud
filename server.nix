@@ -31,20 +31,36 @@
           chown -R root:mail /decrypted
           ENCFS=/run/current-system/sw/bin/encfs
 
-          if [ ls /encrypted/* >/dev/null 2>/dev/null ]; then
-            # mount encfs
-            if [ ! -f /decrypted/test ]; then
-              printf "${vars.encfs_password}" | $ENCFS /encrypted /decrypted \
-                --public --stdinpass
-              touch /decrypted/test
-            fi
-          else
-            # create encfs
+          encfs_exists() {
+            ls /encrypted/* >/dev/null 2>/dev/null
+          }
+
+          encfs_mounted() {
+            [ -f /decrypted/test ]
+          }
+
+          encfs_create() {
             printf "p\n${vars.encfs_password}" | $ENCFS /encrypted /decrypted \
               --public --stdinpass
             touch /decrypted/test
+          }
+
+          encfs_mount() {
+            printf "${vars.encfs_password}" | $ENCFS /encrypted /decrypted \
+              --public --stdinpass
+            touch /decrypted/test
+          }
+
+          if encfs_exists; then
+            if ! encfs_mounted; then
+              encfs_mount
+            fi
+          else
+            encfs_create
           fi
         '';
+
+      services.monit.enable = true;
 
       users.extraGroups = {
         mail = {};
