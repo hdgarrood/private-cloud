@@ -1,0 +1,3 @@
+{
+  services.monit.enable = true;
+}
