@@ -46,3 +46,6 @@
 * Added monit.
 * Error from encfs: "Error decoding volume key, password incorrect" fixed
   problem with encfs startup script.
+* Just realised that encfs password is in plaintext in nix store. Hm.
+* Added dovecot.
+* Just noticed that monit is failing to start. hmmm

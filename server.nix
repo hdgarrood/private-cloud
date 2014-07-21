@@ -28,7 +28,7 @@
         ''
           mkdir -p /encrypted
           mkdir -m 0775 -p /decrypted
-          chown -R root:mail /decrypted
+          chown root:mail /decrypted
           ENCFS=/run/current-system/sw/bin/encfs
 
           encfs_exists() {
@@ -61,6 +61,12 @@
         '';
 
       services.monit.enable = true;
+
+      services.dovecot2 = {
+        enable = true;
+        enableImap = true;
+        enablePop3 = true;
+      };
 
       users.extraGroups = {
         mail = {};
